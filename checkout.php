@@ -117,52 +117,46 @@ span.price {
 <form action ="checkout.php" method ="post">
 <div class="Fields"><?php
 $q1="SELECT * FROM books where pid=$bookid";
-                                                $r1=mysqli_query($connection,$q1);
-                                                if (mysqli_num_rows($r1) > 0) {
-                                                    while($row = mysqli_fetch_assoc($r1)){
-   
-                                                        echo '<p>'. $row["Name"].' <span class="price">Rs '. $row["Price"].'</span> </p>';  
-                                                        
-                                                        
-                                                    }
-                                                   
-                                                }
-                                                else {
-                                                    echo mysqli_error($connection);
-                                                } 
-                                                ?>
+    $r1=mysqli_query($connection,$q1);
+   if (mysqli_num_rows($r1) > 0) {
+   while($row = mysqli_fetch_assoc($r1))
+   {
+   echo '<p>'. $row["Name"].' <span class="price">Rs '. $row["Price"].'</span> </p>';  
+ } 
+
+ }
+  else {
+   echo mysqli_error($connection);
+} 
+?>
 <div>
 <h3>Billing Address</h3>
 <label for="fname">Full Name</label>
-<input type="text" id="fname" name="fullname" />
+<input type="text" id="fname" name="fullname" required />
 <label for="email"> Email</label>
-<input type="text" id="email" name="email" />
+<input type="text" id="email" name="email"  required/>
 <label for="adr"> Address</label>
-<input type="text" id="adr" name="address" />
+<input type="text" id="adr" name="address" required />
 </div>
 <div>
 <h3>Payment</h3>
 <label for="cname">Name on Card</label>
-<input type="text" id="cname" name="cardname" />
+<input type="text" id="cname" name="cardname" required/>
 <label for="ccnum">Credit card number</label>
-<input type="text" id="ccnum" name="cardnumber" />
+<input type="text" id="ccnum" name="cardnumber" required />
 <div class="Fields">
 <div>
 <label for="expyear">Exp Year</label>
-<input type="text" id="expyear" name="expyear" />
+<input type="text" id="expyear" name="expyear" required/>
 </div>
 <div>
 <label for="cvv">CVV</label>
-<input type="text" id="cvv" name="cvv" />
+<input type="text" id="cvv" name="cvv" required />
 </div>
 </div>
 </div>
 </div>
-<input
-type="submit"
-value="Continue to checkout"
-class="checkout"
-/>
+<input type="submit" value="Continue to checkout"class="checkout"/>
 </form>
 <footer class="disp-in" role="contentinfo">
             <p>Copyright &copy; 2021 Book Store</p>
@@ -175,16 +169,17 @@ class="checkout"
 
 <?php
 if( $_SERVER['REQUEST_METHOD']=='POST'){
-    $fullname = $_POST['fullname'];
+  $fullname = $_POST['fullname'];
   $email = $_POST['email'];
   $address = $_POST['address'];
   $cardname = $_POST['cardname'];
   $cardnumber = $_POST['cardnumber'];
   $expyear = $_POST['expyear'];
   $cvv = $_POST['cvv'];
+  
 
 
-require("mysqli_connect.php");
+
         $query = "INSERT INTO orders(Full_Name,Email,Address,Name_on_Card, credit_card_number,EXP, CVV) VALUES ('$fullname','$email','$address','$cardname','$cardnumber','$expyear','$cvv')";
         $result = mysqli_query($connection,$query);
         if($result){
