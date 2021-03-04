@@ -1,4 +1,5 @@
 <?php
+require("mysqli_connect.php");
 session_start();
 if (isset($_SESSION['buyBook']))
   {
@@ -114,7 +115,22 @@ span.price {
 <div>
 <div class="formContainer">
 <form action ="checkout.php" method ="post">
-<div class="Fields">
+<div class="Fields"><?php
+$q1="SELECT * FROM books where pid=$bookid";
+                                                $r1=mysqli_query($connection,$q1);
+                                                if (mysqli_num_rows($r1) > 0) {
+                                                    while($row = mysqli_fetch_assoc($r1)){
+   
+                                                        echo '<p>'. $row["Name"].' <span class="price">Rs '. $row["Price"].'</span> </p>';  
+                                                        
+                                                        
+                                                    }
+                                                   
+                                                }
+                                                else {
+                                                    echo mysqli_error($connection);
+                                                } 
+                                                ?>
 <div>
 <h3>Billing Address</h3>
 <label for="fname">Full Name</label>
